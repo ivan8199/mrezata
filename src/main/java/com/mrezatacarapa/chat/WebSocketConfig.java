@@ -61,6 +61,7 @@ class ChatHandler extends TextWebSocketHandler {
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         log.info("Session closing: " + session.getId());
 
+        sessions.remove(session);
         super.afterConnectionClosed(session, status);
     }
 
