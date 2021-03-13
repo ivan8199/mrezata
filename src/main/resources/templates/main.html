@@ -2,10 +2,12 @@
 
 <head>
     <title>Chat WebSocket</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script type="text/javascript">
         var ws;
         function connect() {
-            ws = new WebSocket('wss://dog-shit.herokuapp.com/chat');
+            ws = new SockJS('https://dog-shit.herokuapp.com/chat');
 
             ws.onmessage = function (data) {
                 console.log(data.data);
