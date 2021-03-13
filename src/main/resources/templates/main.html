@@ -85,8 +85,8 @@
     <script type="text/javascript">
         var ws;
         function connect() {
-            // ws = new SockJS('https://dog-shit.herokuapp.com/chat');
-            ws = new SockJS('http://localhost:8080/chat');
+            ws = new SockJS('https://dog-shit.herokuapp.com/chat');
+            // ws = new SockJS('http://localhost:8080/chat');
 
             ws.onmessage = function (data) {
                 console.log(data.data);
