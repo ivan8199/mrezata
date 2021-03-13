@@ -2,15 +2,16 @@
 
 <head>
     <title>Chat WebSocket</title>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script> -->
     <script type="text/javascript">
         var ws;
-        function disconnect() {
+        function connect() {
             ws = new WebSocket('wss://dog-shit.herokuapp.com/chat');
 
             ws.onmessage = function (data) {
                 console.log(data.data);
+                var node = document.createElement("DIV");
+                node.innerHTML = data.data;
+                document.getElementById("textarea").appendChild(node);
                 // console.log(data);
             }
         }
@@ -23,12 +24,12 @@
     </script>
 </head>
 
-<body onload="disconnect()">
+<body onload="connect()">
     <div>
 
         <button id="connect" onclick="send();">Connect</button>
         <input id="msg" type="text">
-
+        <div id="textarea"></div>
     </div>
 
 </body>

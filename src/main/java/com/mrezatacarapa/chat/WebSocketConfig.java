@@ -4,19 +4,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Configuration
 @EnableWebSocket
+
 public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
@@ -27,6 +28,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
 }
 
+@Slf4j
 class ChatHandler extends TextWebSocketHandler {
 
     private List<WebSocketSession> sessions = new ArrayList<>();
@@ -35,6 +37,8 @@ class ChatHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         super.afterConnectionEstablished(session);
 
+        log.info("Session created: " + session.getId());
+        log.info("from remote " + session.getRemoteAddress());
         sessions.add(session);
     }
 
