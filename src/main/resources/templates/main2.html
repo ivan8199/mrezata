@@ -1,16 +1,56 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <title>Chat WebSocket</title>
+    <meta charset="UTF-8">
+    <title>Simple Chat Application using StompJs</title>
+    <link type="text/css" rel="stylesheet" href="../../assets/style.css">
+</head>
 
-    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script> -->
+<body>
+    <div id="wrapper">
+        <ul>
+            <li>Open multiple browsers or tabs to chat across those.</li>
+            <li>You will need a STOMP broker running. The defaults will work for fresh RabbitMQ on local machine.</li>
+            <li>Adjust the <a
+                    href="https://stomp-js.github.io/api-docs/latest/classes/StompConfig.html">configuration</a>
+                as per your STOMP broker.</li>
+            <li>A guide at <a href="https://stomp-js.github.io/guide/stompjs/2018/06/28/using-stompjs-v5.html">
+                    Using StompJs v5</a></li>
+            <li>
+                <a
+                    href="https://stomp-js.github.io/guide/stompjs/rx-stomp/ng2-stompjs/2018/09/10/using-stomp-with-sockjs.html">
+                    Using STOMP with SockJS</a>
+            </li>
+            <li>For details on API calls see:
+                <a href="https://stomp-js.github.io/api-docs/latest/classes/Client.html">
+                    API Reference</a>
+            </li>
+            <li>The html/css is heavily based on
+                <a
+                    href="https://code.tutsplus.com/tutorials/how-to-create-a-simple-web-based-chat-application--net-5931">
+                    Simple Web-Based Chat Application</a>
+            </li>
+        </ul>
+        <div id="menu">
+            <p class="welcome">Welcome, <input title="username" name="username" id="username" type="text"
+                    value="Change Me">
+            </p>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@5.0.0/bundles/stomp.umd.min.js"></script>
+        <div id="chatbox"></div>
+
+        <input name="usermsg" type="text" id="usermsg" size="63" title="usermsg" />
+        <button name="submitmsg" id="submitmsg">Send</button>
+    </div>
+
+    <!-- It is used for DOM manipulation, not mandatory to use stompjs -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
 
+    <!-- Include from CDN for better performance, alternatively you can locally copy as well -->
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@5.0.0/bundles/stomp.umd.min.js"></script>
 
-    <!-- <script type="application/javascript">
+    <script type="application/javascript">
         $(function () {
             let stompClient;
 
@@ -18,8 +58,10 @@
 
 
                 // Broker URL, should start with ws:// or wss:// - adjust for your broker setup
-                brokerURL: "ws://localhost:8080/chater1",
+                brokerURL: "ws://localhost:8080/chat",
 
+                // Keep it off for production, it can be quit verbose
+                // Skip this key to disable
                 debug: function (str) {
                     console.log('STOMP: ' + str);
                 },
@@ -30,7 +72,7 @@
                 // Subscriptions should be done inside onConnect as those need to reinstated when the broker reconnects
                 onConnect: function (frame) {
                     // The return object has a method called `unsubscribe`
-                    const subscription = stompClient.subscribe('/topic/chater1', function (message) {
+                    const subscription = stompClient.subscribe('/topic/chat', function (message) {
                         const payload = JSON.parse(message.body);
                         displayIncomingMessage(payload.user, payload.message);
                     });
@@ -80,45 +122,7 @@
                 $("#chatbox").append(msgDiv);
             }
         })
-    </script> -->
-
-    <script type="text/javascript">
-        var ws;
-        function connect() {
-            // ws = new SockJS('https://dog-shit.herokuapp.com/chat');
-            ws = new SockJS('http://localhost:8080/chat');
-
-            ws.onmessage = function (data) {
-                console.log(data.data);
-                var node = document.createElement("DIV");
-                node.innerHTML = data.data;
-                document.getElementById("textarea").appendChild(node);
-                // console.log(data);
-            }
-            ws.onclose = function () {
-                console.log('Closed')
-            }
-
-            ws.onerror = function () {
-                console.log('error')
-            }
-        }
-
-        function send() {
-            ws.send(document.getElementById("msg").value);
-        }
-
     </script>
-</head>
-
-<body onload="connect()">
-    <div>
-
-        <button id="connect" onclick="send();">Send</button>
-        <input id="msg" type="text">
-        <div id="textarea"></div>
-    </div>
-
 </body>
 
 </html>
