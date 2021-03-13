@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("main")
+@RequestMapping("/")
 public class MainController {
 
     @GetMapping("hello")
@@ -15,7 +15,7 @@ public class MainController {
         return "brat";
     }
 
-    @GetMapping("index")
+    @GetMapping("/")
     public String index() {
         return "main";
     }
