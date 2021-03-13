@@ -59,7 +59,8 @@ class ChatHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        // TODO Auto-generated method stub
+        log.info("Session closing: " + session.getId());
+
         super.afterConnectionClosed(session, status);
     }
 
