@@ -104,11 +104,23 @@
         dragBoundFunc: function (pos) {
           // var newY = pos.y < 50 ? 50 : pos.y;
 
-          x1 = roundnum(stage.getPointerPosition().x);
-          y1 = roundnum(stage.getPointerPosition().y);
-          // this.attrs.x = roundnum(x1);
-          // this.attrs.y = roundnum(y1);
-          console.log("dragBoundFunc", x1, y1);
+          x1 = stage.getPointerPosition().x;
+          y1 = stage.getPointerPosition().y;
+
+          if (x1 - 50 < 0) {
+            x1 = 50;
+          }
+          else if (x1 + 50 > 800) {
+            x1 = 750;
+          }
+
+          if (y1 - 50 < 0) {
+            y1 = 50;
+          }
+          else if (y1 + 50 > 800) {
+            y1 = 750;
+          }
+
           return {
             x: x1,
             y: y1,
