@@ -151,7 +151,7 @@
 
         document.body.style.cursor = 'default';
       });
-      layer.on('mouseup', function () {
+      layer.on('mouseup touchend', function () {
         x1 = stage.getPointerPosition().x;
         y1 = stage.getPointerPosition().y;
         // pawn.attrs.x = roundnum(x1);
@@ -161,7 +161,7 @@
           x: roundnum(x1),
           y: roundnum(y1)
         });
-        console.log("mouseup", pawn.attrs.x, pawn.attrs.y);
+        console.log("mouseup ", pawn.attrs.x, pawn.attrs.y);
         // .draw();
         // // layer.draw();
         // pawnLayer.draw();
