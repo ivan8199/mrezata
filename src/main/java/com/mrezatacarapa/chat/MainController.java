@@ -19,4 +19,9 @@ public class MainController {
     public String index() {
         return "main";
     }
+
+    @GetMapping("/sah")
+    public String sah() {
+        return "conva-test";
+    }
 }

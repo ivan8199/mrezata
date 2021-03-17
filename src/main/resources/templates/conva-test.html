@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <style>
+    #container {
+      width: 800px;
+      margin: 0 auto;
+    }
+  </style>
+  <div id="container"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/konva/7.2.5/konva.js"
+    integrity="sha512-t2ZHyAXKjMJb884sg/HgxF5mjF/o/wrto+PDiwV+Zm5bZRv9Ajo9VJb055JdYESUnXwe5SLezv2B29NI9IlfCw=="
+    crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    console.log("lmao")
+
+    // first we need to create a stage
+    var stage = new Konva.Stage({
+      container: 'container',   // id of container <div>
+      width: 800,
+      height: 800
+    });
+
+    // then create layer
+    var layer = new Konva.Layer();
+
+    let x = 0;
+    let y = 0;
+    let color = 'lightgray'
+
+
+    for (let index = 0; index < 8; index++) {
+
+      for (let index2 = 0; index2 < 8; index2++) {
+        layer.add(createSquare());
+
+        console.log(x, y, color)
+        switchColor();
+
+        y += 100;
+      }
+      switchColor();
+      x += 100;
+      y = 0;
+    }
+    // create our shape
+
+    // add the shape to the layer
+
+    var pawnLayer = new Konva.Layer();
+
+    pawnLayer.add(createPawn());
+
+    // add the layer to the stage
+    stage.add(layer);
+    stage.add(pawnLayer);
+
+    // draw the image
+    layer.draw();
+    pawnLayer.draw();
+
+
+
+
+    function switchColor() {
+      if (color === 'lightgray') {
+        color = 'gray'
+      }
+      else if (color === 'gray') {
+        color = 'lightgray'
+      }
+    }
+
+    function createSquare() {
+      var rect1 = new Konva.Rect({
+        x: x,
+        y: y,
+        width: 100,
+        height: 100,
+        fill: color,
+        stroke: 'black',
+        strokeWidth: 2,
+      });
+      return rect1;
+    }
+
+    function roundnum(num) {
+      return 50 + Math.floor(num / 100) * 100;
+      // 
+
+    }
+
+    function createPawn() {
+      var pawn = new Konva.Circle({
+        x: 50,
+        y: 50,
+        radius: 45,
+        fill: 'darkslategray',
+        draggable: true,
+
+        stroke: 'black',
+        strokeWidth: 2,
+        dragBoundFunc: function (pos) {
+          // var newY = pos.y < 50 ? 50 : pos.y;
+
+          x1 = roundnum(stage.getPointerPosition().x);
+          y1 = roundnum(stage.getPointerPosition().y);
+          // this.attrs.x = roundnum(x1);
+          // this.attrs.y = roundnum(y1);
+          console.log("dragBoundFunc", x1, y1);
+          return {
+            x: x1,
+            y: y1,
+          };
+        },
+
+      });
+
+      pawn.on('dragend', function () {
+
+        x1 = stage.getPointerPosition().x;
+        y1 = stage.getPointerPosition().y;
+
+        // console.log(x1, y1);
+
+        this.attrs.x = roundnum(x1);
+        this.attrs.y = roundnum(y1);
+
+        console.log("dragend", pawn.attrs.x, pawn.attrs.y);
+        // pawn.draw();
+        // pawnLayer.batchDraw();
+      });
+      // add cursor styling
+      pawn.on('mouseover', function () {
+        document.body.style.cursor = 'pointer';
+      });
+      pawn.on('mouseout', function () {
+
+        document.body.style.cursor = 'default';
+      });
+      layer.on('mouseup', function () {
+        x1 = stage.getPointerPosition().x;
+        y1 = stage.getPointerPosition().y;
+        // pawn.attrs.x = roundnum(x1);
+        // pawn.attrs.y = roundnum(y1);
+
+        pawn.position({
+          x: roundnum(x1),
+          y: roundnum(y1)
+        });
+        console.log("mouseup", pawn.attrs.x, pawn.attrs.y);
+        // .draw();
+        // // layer.draw();
+        // pawnLayer.draw();
+        stage.draw();
+      });
+
+      pawn.on('mouseup', function () {
+        console.log('Mouseup circle');
+      });
+
+      pawn.add(
+        new Konva.Text({
+          text: 'e-sign',
+          fontFamily: 'Calibri',
+          fontSize: 18,
+          padding: 5,
+          fill: 'white',
+        })
+      );
+
+      return pawn;
+    }
+  </script>
+</body>
+
+</html>
